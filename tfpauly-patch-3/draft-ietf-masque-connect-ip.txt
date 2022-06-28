@@ -224,7 +224,7 @@ Table of Contents
       The server SHOULD send a ROUTE_ADVERTISEMENT capsule that includes
       routes for all addresses that were resolved for the requested
       hostname, that are accessible to the server, and belong to an
-      address family for which the server also sent an ADDRESS_ASSIGN
+      address family for which the server also sends an ADDRESS_ASSIGN
       capsule.
    ipproto:  The variable "ipproto" contains an IP protocol number, as
       defined in the "Assigned Internet Protocol Numbers" IANA registry.
