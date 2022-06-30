@@ -5,12 +5,12 @@
 MASQUE                                                     T. Pauly, Ed.
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                             D. Schinazi
-Expires: 25 December 2022                              A. Chernyakhovsky
+Expires: 1 January 2023                                A. Chernyakhovsky
                                                               Google LLC
                                                            M. Kuehlewind
                                                            M. Westerlund
                                                                 Ericsson
-                                                            23 June 2022
+                                                            30 June 2022
 
 
                       IP Proxying Support for HTTP
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 December 2022.
+   This Internet-Draft will expire on 1 January 2023.
 
 Copyright Notice
 
@@ -222,8 +222,10 @@ Table of Contents
       the target is a hostname, the server is expected to perform DNS
       resolution to determine which route(s) to advertise to the client.
       The server SHOULD send a ROUTE_ADVERTISEMENT capsule that includes
-      routes for all usable resolved addresses for the requested
-      hostname.
+      routes for all addresses that were resolved for the requested
+      hostname, that are accessible to the server, and belong to an
+      address family for which the server also sends an ADDRESS_ASSIGN
+      capsule.
    ipproto:  The variable "ipproto" contains an IP protocol number, as
       defined in the "Assigned Internet Protocol Numbers" IANA registry.
       If present, it specifies that a client only wants to proxy a
