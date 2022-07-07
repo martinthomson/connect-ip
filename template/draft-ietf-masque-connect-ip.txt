@@ -5,12 +5,12 @@
 MASQUE                                                     T. Pauly, Ed.
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                             D. Schinazi
-Expires: 6 January 2023                                A. Chernyakhovsky
+Expires: 8 January 2023                                A. Chernyakhovsky
                                                               Google LLC
                                                            M. Kuehlewind
                                                            M. Westerlund
                                                                 Ericsson
-                                                             5 July 2022
+                                                             7 July 2022
 
 
                       IP Proxying Support for HTTP
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2023.
+   This Internet-Draft will expire on 8 January 2023.
 
 Copyright Notice
 
@@ -140,7 +140,7 @@ Table of Contents
    "target" and "ipproto" (Section 4.1).  The optionality of the
    variables needs to be considered when defining the template so that
    either the variable is self identfying or it works to exclude it in
-   the syntax.  For example first path segment in absolute URIs can not
+   the syntax.  For example first path segment in absolute URIs cannot
    be empty.
 
    Examples are shown below:
