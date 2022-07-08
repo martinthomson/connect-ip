@@ -2084,9 +2084,14 @@ it attributed to the proxy. Proxies that support CONNECT-IP <span class="bcp14">
 use to authenticated users. The HTTP Authorization header <span>[<a href="#AUTH" class="xref">AUTH</a>]</span> <span class="bcp14">MAY</span>
 be used to authenticate clients. More complex authentication schemes are out of
 scope for this document but can be implemented using CONNECT-IP extensions.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">Since CONNECT-IP endpoints can proxy IP packets send by their peer, they <span class="bcp14">SHOULD</span>
-follow the guidance in <span>[<a href="#BCP38" class="xref">BCP38</a>]</span> to help prevent denial of service
-attacks.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-2">Falsifying IP source addresses in sent traffic has been common for denial of
+service attacks. Implementations of this mechanism need to ensure that they do
+not facilitate such attacks. In particular, there are scenarios where an
+endpoint knows that its peer is only allowed to send IP packets from a given
+prefix. For example, that can happen through out of band configuration
+information, or when allowed prefixes are shared via ADDRESS_ASSIGN capsules. In
+such scenarios, endpoints <span class="bcp14">MUST</span> follow the recommendations from
+<span>[<a href="#BCP38" class="xref">BCP38</a>]</span> to prevent source address spoofing.<a href="#section-9-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
