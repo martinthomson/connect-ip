@@ -83,17 +83,18 @@ Table of Contents
        4.2.3.  ROUTE_ADVERTISEMENT Capsule
    5.  Context Identifiers
    6.  HTTP Datagram Payload Format
-   7.  Examples
-     7.1.  Remote Access VPN
-     7.2.  IP Flow Forwarding
-     7.3.  Proxied Connection Racing
-   8.  Security Considerations
-   9.  IANA Considerations
-     9.1.  CONNECT-IP HTTP Upgrade Token
-     9.2.  Capsule Type Registrations
-   10. References
-     10.1.  Normative References
-     10.2.  Informative References
+   7.  Error Signalling
+   8.  Examples
+     8.1.  Remote Access VPN
+     8.2.  IP Flow Forwarding
+     8.3.  Proxied Connection Racing
+   9.  Security Considerations
+   10. IANA Considerations
+     10.1.  CONNECT-IP HTTP Upgrade Token
+     10.2.  Capsule Type Registrations
+   11. References
+     11.1.  Normative References
+     11.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -241,7 +242,7 @@ Table of Contents
 
 4.2.1.  ADDRESS_ASSIGN Capsule
 
-   The ADDRESS_ASSIGN capsule (see Section 9.2 for the value of the
+   The ADDRESS_ASSIGN capsule (see Section 10.2 for the value of the
    capsule type) allows an endpoint to inform its peer that it has
    assigned an IP address or prefix to it.  The ADDRESS_ASSIGN capsule
    allows assigning a prefix which can contain multiple addresses.  Any
@@ -282,13 +283,13 @@ Table of Contents
    In some deployments of CONNECT-IP, an endpoint needs to be assigned
    an address by its peer before it knows what source address to set on
    its own packets.  For example, in the Remote Access case
-   (Section 7.1) the client cannot send IP packets until it knows what
+   (Section 8.1) the client cannot send IP packets until it knows what
    address to use.  In these deployments, endpoints need to send
    ADDRESS_ASSIGN capsules to allow their peers to send traffic.
 
 4.2.2.  ADDRESS_REQUEST Capsule
 
-   The ADDRESS_REQUEST capsule (see Section 9.2 for the value of the
+   The ADDRESS_REQUEST capsule (see Section 10.2 for the value of the
    capsule type) allows an endpoint to request assignment of an IP
    address from its peer.  This capsule is not required for simple
    client/proxy communication where the client only expects to receive
@@ -321,9 +322,9 @@ Table of Contents
 
 4.2.3.  ROUTE_ADVERTISEMENT Capsule
 
-   The ROUTE_ADVERTISEMENT capsule (see Section 9.2 for the value of the
-   capsule type) allows an endpoint to communicate to its peer that it
-   is willing to route traffic to a set of IP address ranges.  This
+   The ROUTE_ADVERTISEMENT capsule (see Section 10.2 for the value of
+   the capsule type) allows an endpoint to communicate to its peer that
+   it is willing to route traffic to a set of IP address ranges.  This
    indicates that the sender has an existing route to each address
    range, and notifies its peer that if the receiver of the
    ROUTE_ADVERTISEMENT capsule sends IP packets for one of these ranges
@@ -477,13 +478,24 @@ Table of Contents
    Endpoints MAY implement additional filtering policies on the IP
    packets they forward.
 
-7.  Examples
+7.  Error Signalling
+
+   Since CONNECT-IP endpoints often forward IP packets onwards to other
+   network interfaces, they need to handle errors in the forwarding
+   process.  For example, forwarding can fail if the endpoint doesn't
+   have a route for the destination address, or if it is configured to
+   reject a destination prefix by policy, or if the MTU of the outgoing
+   link is lower than the size of the packet to be forwarded.  In such
+   scenarios, CONNECT-IP endpoints SHOULD use ICMP [ICMP] to signal the
+   forwarding error to its peer.
+
+8.  Examples
 
    CONNECT-IP enables many different use cases that can benefit from IP
    packet proxying and tunnelling.  These examples are provided to help
    illustrate some of the ways in which CONNECT-IP can be used.
 
-7.1.  Remote Access VPN
+8.1.  Remote Access VPN
 
    The following example shows a point-to-network VPN setup, where a
    client receives a set of local addresses, and can send to any remote
@@ -572,7 +584,7 @@ Table of Contents
 
                  Figure 9: VPN Split-Tunnel Capsule Example
 
-7.2.  IP Flow Forwarding
+8.2.  IP Flow Forwarding
 
    The following example shows an IP flow forwarding setup, where a
    client requests to establish a forwarding tunnel to
@@ -648,7 +660,7 @@ Table of Contents
 
                     Figure 11: Proxied SCTP Flow Example
 
-7.3.  Proxied Connection Racing
+8.3.  Proxied Connection Racing
 
    The following example shows a setup where a client is proxying UDP
    packets through a CONNECT-IP proxy in order to control connection
@@ -736,7 +748,7 @@ Table of Contents
 
                 Figure 13: Proxied Connection Racing Example
 
-8.  Security Considerations
+9.  Security Considerations
 
    There are significant risks in allowing arbitrary clients to
    establish a tunnel to arbitrary servers, as that could allow bad
@@ -751,9 +763,9 @@ Table of Contents
    they SHOULD follow the guidance in [BCP38] to help prevent denial of
    service attacks.
 
-9.  IANA Considerations
+10.  IANA Considerations
 
-9.1.  CONNECT-IP HTTP Upgrade Token
+10.1.  CONNECT-IP HTTP Upgrade Token
 
    This document will request IANA to register "connect-ip" in the HTTP
    Upgrade Token Registry maintained at
@@ -764,7 +776,7 @@ Table of Contents
    Expected Version Tokens:  None
    References:  This document
 
-9.2.  Capsule Type Registrations
+10.2.  Capsule Type Registrations
 
    This document will request IANA to add the following values to the
    "HTTP Capsule Types" registry created by [HTTP-DGRAM]:
@@ -784,9 +796,9 @@ Table of Contents
 
                            Table 1: New Capsules
 
-10.  References
+11.  References
 
-10.1.  Normative References
+11.1.  Normative References
 
    [BCP38]    Ferguson, P. and D. Senie, "Network Ingress Filtering:
               Defeating Denial of Service Attacks which employ IP Source
@@ -811,6 +823,12 @@ Table of Contents
               draft-ietf-masque-h3-datagram-11, 17 June 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-masque-
               h3-datagram-11>.
+
+   [ICMP]     Conta, A., Deering, S., and M. Gupta, Ed., "Internet
+              Control Message Protocol (ICMPv6) for the Internet
+              Protocol Version 6 (IPv6) Specification", STD 89,
+              RFC 4443, DOI 10.17487/RFC4443, March 2006,
+              <https://www.rfc-editor.org/rfc/rfc4443>.
 
    [QUIC]     Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", RFC 9000,
@@ -838,7 +856,7 @@ Table of Contents
               DOI 10.17487/RFC6570, March 2012,
               <https://www.rfc-editor.org/rfc/rfc6570>.
 
-10.2.  Informative References
+11.2.  Informative References
 
    [AUTH]     Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Authentication", RFC 7235,
