@@ -1741,8 +1741,32 @@ encapsulation but not decapsulation. In other words, the Hop Count is
 decremented right before an IP packet is transmitted in an HTTP Datagram. This
 prevents infinite loops in the presence of routing loops, and matches the
 choices in IPsec <span>[<a href="#IPSEC" class="xref">IPSEC</a>]</span>.<a href="#section-6-8" class="pilcrow">¶</a></p>
-<p id="section-6-9">Endpoints <span class="bcp14">MAY</span> implement additional filtering policies on the IP packets they
-forward.<a href="#section-6-9" class="pilcrow">¶</a></p>
+<p id="section-6-9">IPv6 requires that every link have an MTU of at least 1280 bytes
+<span>[<a href="#IPv6" class="xref">IPv6</a>]</span>. Since CONNECT-IP conveys IP packets in HTTP Datagrams and
+those can in turn be sent in QUIC DATAGRAM frames which cannot be fragmented
+<span>[<a href="#DGRAM" class="xref">DGRAM</a>]</span>, the MTU of a CONNECT-IP link can be limited by the MTU of
+the QUIC connection that CONNECT-IP is operating over. This can lead to
+situations where the IPv6 minimum link MTU is violated. CONNECT-IP endpoints
+that support IPv6 <span class="bcp14">MUST</span> ensure that the CONNECT-IP tunnel link MTU is at least
+1280 (i.e., that they can send HTTP Datagrams with payloads of at least 1280
+bytes). This can be accomplished using various techniques:<a href="#section-6-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6-10.1">if HTTP intermediaries are not in use, both CONNECT-IP endpoints can pad the
+QUIC INITIAL packets of the underlying QUIC connection that CONNECT-IP is
+running over.<a href="#section-6-10.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-10.2">if HTTP intermediaries are in use, CONNECT-IP endpoints can enter in an out of
+band agreement with the intermediaries to ensure that endpoints and
+intermediaries pad QUIC INITIAL packets.<a href="#section-6-10.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-10.3">CONNECT-IP endpoints can also send ICMPv6 echo requests with 1232 bytes of
+data to ascertain the link MTU and tear down the tunnel if they do not receive
+a response. Unless endpoints have an out of band means of guaranteeing that
+one of the two previous techniques is sufficient, they <span class="bcp14">MUST</span> use this method.<a href="#section-6-10.3" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-6-11">Endpoints <span class="bcp14">MAY</span> implement additional filtering policies on the IP packets they
+forward.<a href="#section-6-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="error-signalling">
@@ -2191,6 +2215,10 @@ Capsule Types" registry created by <span>[<a href="#HTTP-DGRAM" class="xref">HTT
         <dd>
 <span class="refAuthor">Ferguson, P.</span> and <span class="refAuthor">D. Senie</span>, <span class="refTitle">"Network Ingress Filtering: Defeating Denial of Service Attacks which employ IP Source Address Spoofing"</span>, <span class="seriesInfo">BCP 38</span>, <span class="seriesInfo">RFC 2827</span>, <span class="seriesInfo">DOI 10.17487/RFC2827</span>, <time datetime="2000-05" class="refDate">May 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2827">https://www.rfc-editor.org/rfc/rfc2827</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="DGRAM">[DGRAM]</dt>
+        <dd>
+<span class="refAuthor">Wouters, P.</span>, <span class="refAuthor">Migault, D.</span>, <span class="refAuthor">Mattsson, J.</span>, <span class="refAuthor">Nir, Y.</span>, and <span class="refAuthor">T. Kivinen</span>, <span class="refTitle">"Cryptographic Algorithm Implementation Requirements and Usage Guidance for Encapsulating Security Payload (ESP) and Authentication Header (AH)"</span>, <span class="seriesInfo">RFC 8221</span>, <span class="seriesInfo">DOI 10.17487/RFC8221</span>, <time datetime="2017-10" class="refDate">October 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8221">https://www.rfc-editor.org/rfc/rfc8221</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="EXT-CONNECT2">[EXT-CONNECT2]</dt>
         <dd>
 <span class="refAuthor">McManus, P.</span>, <span class="refTitle">"Bootstrapping WebSockets with HTTP/2"</span>, <span class="seriesInfo">RFC 8441</span>, <span class="seriesInfo">DOI 10.17487/RFC8441</span>, <time datetime="2018-09" class="refDate">September 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8441">https://www.rfc-editor.org/rfc/rfc8441</a>&gt;</span>. </dd>
@@ -2206,6 +2234,10 @@ Capsule Types" registry created by <span>[<a href="#HTTP-DGRAM" class="xref">HTT
 <dt id="ICMP">[ICMP]</dt>
         <dd>
 <span class="refAuthor">Conta, A.</span>, <span class="refAuthor">Deering, S.</span>, and <span class="refAuthor">M. Gupta, Ed.</span>, <span class="refTitle">"Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 89</span>, <span class="seriesInfo">RFC 4443</span>, <span class="seriesInfo">DOI 10.17487/RFC4443</span>, <time datetime="2006-03" class="refDate">March 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4443">https://www.rfc-editor.org/rfc/rfc4443</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IPv6">[IPv6]</dt>
+        <dd>
+<span class="refAuthor">Deering, S.</span> and <span class="refAuthor">R. Hinden</span>, <span class="refTitle">"Internet Protocol, Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 86</span>, <span class="seriesInfo">RFC 8200</span>, <span class="seriesInfo">DOI 10.17487/RFC8200</span>, <time datetime="2017-07" class="refDate">July 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8200">https://www.rfc-editor.org/rfc/rfc8200</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="QUIC">[QUIC]</dt>
         <dd>

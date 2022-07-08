@@ -517,6 +517,31 @@ Table of Contents
    an HTTP Datagram.  This prevents infinite loops in the presence of
    routing loops, and matches the choices in IPsec [IPSEC].
 
+   IPv6 requires that every link have an MTU of at least 1280 bytes
+   [IPv6].  Since CONNECT-IP conveys IP packets in HTTP Datagrams and
+   those can in turn be sent in QUIC DATAGRAM frames which cannot be
+   fragmented [DGRAM], the MTU of a CONNECT-IP link can be limited by
+   the MTU of the QUIC connection that CONNECT-IP is operating over.
+   This can lead to situations where the IPv6 minimum link MTU is
+   violated.  CONNECT-IP endpoints that support IPv6 MUST ensure that
+   the CONNECT-IP tunnel link MTU is at least 1280 (i.e., that they can
+   send HTTP Datagrams with payloads of at least 1280 bytes).  This can
+   be accomplished using various techniques:
+
+   *  if HTTP intermediaries are not in use, both CONNECT-IP endpoints
+      can pad the QUIC INITIAL packets of the underlying QUIC connection
+      that CONNECT-IP is running over.
+
+   *  if HTTP intermediaries are in use, CONNECT-IP endpoints can enter
+      in an out of band agreement with the intermediaries to ensure that
+      endpoints and intermediaries pad QUIC INITIAL packets.
+
+   *  CONNECT-IP endpoints can also send ICMPv6 echo requests with 1232
+      bytes of data to ascertain the link MTU and tear down the tunnel
+      if they do not receive a response.  Unless endpoints have an out
+      of band means of guaranteeing that one of the two previous
+      techniques is sufficient, they MUST use this method.
+
    Endpoints MAY implement additional filtering policies on the IP
    packets they forward.
 
@@ -853,6 +878,13 @@ Table of Contents
               Address Spoofing", BCP 38, RFC 2827, DOI 10.17487/RFC2827,
               May 2000, <https://www.rfc-editor.org/rfc/rfc2827>.
 
+   [DGRAM]    Wouters, P., Migault, D., Mattsson, J., Nir, Y., and T.
+              Kivinen, "Cryptographic Algorithm Implementation
+              Requirements and Usage Guidance for Encapsulating Security
+              Payload (ESP) and Authentication Header (AH)", RFC 8221,
+              DOI 10.17487/RFC8221, October 2017,
+              <https://www.rfc-editor.org/rfc/rfc8221>.
+
    [EXT-CONNECT2]
               McManus, P., "Bootstrapping WebSockets with HTTP/2",
               RFC 8441, DOI 10.17487/RFC8441, September 2018,
@@ -877,6 +909,11 @@ Table of Contents
               Protocol Version 6 (IPv6) Specification", STD 89,
               RFC 4443, DOI 10.17487/RFC4443, March 2006,
               <https://www.rfc-editor.org/rfc/rfc4443>.
+
+   [IPv6]     Deering, S. and R. Hinden, "Internet Protocol, Version 6
+              (IPv6) Specification", STD 86, RFC 8200,
+              DOI 10.17487/RFC8200, July 2017,
+              <https://www.rfc-editor.org/rfc/rfc8200>.
 
    [QUIC]     Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", RFC 9000,
