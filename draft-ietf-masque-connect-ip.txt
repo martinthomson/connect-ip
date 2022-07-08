@@ -5,12 +5,12 @@
 MASQUE                                                     T. Pauly, Ed.
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                             D. Schinazi
-Expires: 1 January 2023                                A. Chernyakhovsky
+Expires: 9 January 2023                                A. Chernyakhovsky
                                                               Google LLC
                                                            M. Kuehlewind
                                                            M. Westerlund
                                                                 Ericsson
-                                                            30 June 2022
+                                                             8 July 2022
 
 
                       IP Proxying Support for HTTP
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 January 2023.
+   This Internet-Draft will expire on 9 January 2023.
 
 Copyright Notice
 
@@ -278,6 +278,13 @@ Table of Contents
    assigned addresses or prefixes can be used.  For example, multiple
    ADDRESS_ASSIGN capsules are necessary to assign both IPv4 and IPv6
    addresses.
+
+   In some deployments of CONNECT-IP, an endpoint needs to be assigned
+   an address by its peer before it knows what source address to set on
+   its own packets.  For example, in the Remote Access case
+   (Section 7.1) the client cannot send IP packets until it knows what
+   address to use.  In these deployments, endpoints need to send
+   ADDRESS_ASSIGN capsules to allow their peers to send traffic.
 
 4.2.2.  ADDRESS_REQUEST Capsule
 
