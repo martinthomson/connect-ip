@@ -5,12 +5,12 @@
 MASQUE                                                     T. Pauly, Ed.
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                             D. Schinazi
-Expires: 9 January 2023                                A. Chernyakhovsky
+Expires: 12 January 2023                               A. Chernyakhovsky
                                                               Google LLC
                                                            M. Kuehlewind
                                                            M. Westerlund
                                                                 Ericsson
-                                                             8 July 2022
+                                                            11 July 2022
 
 
                       IP Proxying Support for HTTP
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 January 2023.
+   This Internet-Draft will expire on 12 January 2023.
 
 Copyright Notice
 
@@ -820,7 +820,7 @@ Table of Contents
    establish a tunnel to arbitrary servers, as that could allow bad
    actors to send traffic and have it attributed to the proxy.  Proxies
    that support CONNECT-IP SHOULD restrict its use to authenticated
-   users.  The HTTP Authorization header [AUTH] MAY be used to
+   users.  The HTTP Authorization header [SEMANTICS] MAY be used to
    authenticate clients.  More complex authentication schemes are out of
    scope for this document but can be implemented using CONNECT-IP
    extensions.
@@ -890,11 +890,9 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc8441>.
 
    [EXT-CONNECT3]
-              Hamilton, R., "Bootstrapping WebSockets with HTTP/3", Work
-              in Progress, Internet-Draft, draft-ietf-httpbis-h3-
-              websockets-04, 8 February 2022,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              h3-websockets-04>.
+              Hamilton, R., "Bootstrapping WebSockets with HTTP/3",
+              RFC 9220, DOI 10.17487/RFC9220, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9220>.
 
    [HTTP-DGRAM]
               Schinazi, D. and L. Pardue, "HTTP Datagrams and the
@@ -929,11 +927,10 @@ Table of Contents
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
    [SEMANTICS]
-              Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
-              Semantics", Work in Progress, Internet-Draft, draft-ietf-
-              httpbis-semantics-19, 12 September 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              semantics-19>.
+              Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9110>.
 
    [TEMPLATE] Gregorio, J., Fielding, R., Hadley, M., Nottingham, M.,
               and D. Orchard, "URI Template", RFC 6570,
@@ -946,11 +943,6 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc3986>.
 
 11.2.  Informative References
-
-   [AUTH]     Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Authentication", RFC 7235,
-              DOI 10.17487/RFC7235, June 2014,
-              <https://www.rfc-editor.org/rfc/rfc7235>.
 
    [CONNECT-UDP]
               Schinazi, D., "Proxying UDP in HTTP", Work in Progress,
